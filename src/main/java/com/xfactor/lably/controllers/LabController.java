@@ -1,8 +1,6 @@
 package com.xfactor.lably.controllers;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.websocket.server.PathParam;
 
@@ -21,43 +19,47 @@ import org.springframework.web.bind.annotation.RestController;
 import antlr.collections.List;
 
 @RestController
-@RequestMapping("/test")
-public class TestController {
+@RequestMapping("/lab")
+public class LabController {
 
+    ArrayList<Lab> labs = new ArrayList<Lab>();
 
-    // @RequestMapping(method = RequestMethod.GET)
-    @GetMapping
-    public String hello() {
-        return "Greetings from XFACTOR!!!";
+    @GetMapping("/getLabs")
+    public ArrayList<Lab> getLabs() {
+        return labs;
     }
 
-    @GetMapping("/hello/{name}")
-    public String helloName(@PathVariable String name) {
-        return "Greetings from " + name + "!!!";
+    @PostMapping("/addLab")
+    public Lab addLab(@RequestBody Lab lab) {
+        labs.add(lab);
+        return lab;
     }
 
-    @GetMapping("/hello2")
-    public String helloName2(@RequestParam String name, @RequestParam String age) {
-        return "Greetings from hello2 " + name + "!!!" + age;
+    @GetMapping("/searchLab")
+    public Lab searchLab(@RequestParam String name)
+    {
+        boolean flag = false;
+        Lab labList = null;
+
+        for(Lab l : labs)
+        {
+            if(l.getName().equals(name))
+            {
+                flag = true;
+                labList = l;
+            }
+        }
+
+        if(flag == true)
+        {
+            return labList;
+        }
+        else
+        {
+            return null;
+        }
     }
 
-    @GetMapping("/hello3")
-    public Map<String, String> helloName3(@RequestParam String name, @RequestParam String age) {
-        Map<String, String> respoMap = new HashMap<>();
-        respoMap.put("name", name);
-        respoMap.put("age", age);
-        return respoMap;
-    }
-
-    @GetMapping("/hello4")
-    public ArrayList<String> helloName4(@RequestParam String name, @RequestParam String age) {
-        ArrayList<String> arrayList = new ArrayList<>();
-        arrayList.add(name);
-        arrayList.add(age);
-        return arrayList;
-    }
-
-   
     // // http://localhost:8080/test/hello/xfactor
     // @GetMapping("/hello/{name}")
     // @ResponseBody

@@ -1,12 +1,10 @@
 package com.xfactor.lably.controllers;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.websocket.server.PathParam;
 
-import com.xfactor.lably.entity.Lab;
+import com.xfactor.lably.entity.Admin;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,43 +19,49 @@ import org.springframework.web.bind.annotation.RestController;
 import antlr.collections.List;
 
 @RestController
-@RequestMapping("/test")
-public class TestController {
+@RequestMapping("/admin")
+public class AdminController {
 
+    ArrayList<Admin> admins = new ArrayList<Admin>();
 
-    // @RequestMapping(method = RequestMethod.GET)
-    @GetMapping
-    public String hello() {
-        return "Greetings from XFACTOR!!!";
+    @PostMapping("/addAdmin")
+    public Admin addAdmin(@RequestBody Admin admin) 
+    {
+        admins.add(admin);
+        return admin;
     }
 
-    @GetMapping("/hello/{name}")
-    public String helloName(@PathVariable String name) {
-        return "Greetings from " + name + "!!!";
+    @GetMapping("/getAdmins")
+    public ArrayList<Admin> getAdmins()
+    {
+        return admins;
     }
 
-    @GetMapping("/hello2")
-    public String helloName2(@RequestParam String name, @RequestParam String age) {
-        return "Greetings from hello2 " + name + "!!!" + age;
+    @GetMapping("/searchAdmin")
+    public Admin searchAdmin(@RequestParam String username)
+    {
+        boolean flag = false;
+        Admin adminList = null;
+
+        for(Admin a : admins)
+        {
+            if(a.getUsername().equals(username))
+            {
+                flag = true;
+                adminList = a;
+            }
+        }
+
+        if(flag == true)
+        {
+            return adminList;
+        }
+        else
+        {
+            return null;
+        }
     }
 
-    @GetMapping("/hello3")
-    public Map<String, String> helloName3(@RequestParam String name, @RequestParam String age) {
-        Map<String, String> respoMap = new HashMap<>();
-        respoMap.put("name", name);
-        respoMap.put("age", age);
-        return respoMap;
-    }
-
-    @GetMapping("/hello4")
-    public ArrayList<String> helloName4(@RequestParam String name, @RequestParam String age) {
-        ArrayList<String> arrayList = new ArrayList<>();
-        arrayList.add(name);
-        arrayList.add(age);
-        return arrayList;
-    }
-
-   
     // // http://localhost:8080/test/hello/xfactor
     // @GetMapping("/hello/{name}")
     // @ResponseBody
