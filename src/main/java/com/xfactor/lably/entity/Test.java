@@ -1,6 +1,6 @@
 package com.xfactor.lably.entity;
 
-public class Tests
+public class Test
 {
     private String name;
 

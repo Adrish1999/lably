@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import javax.websocket.server.PathParam;
 
-import com.xfactor.lably.entity.Admin;
+import com.xfactor.lably.entity.Customer;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,37 +19,37 @@ import org.springframework.web.bind.annotation.RestController;
 import antlr.collections.List;
 
 @RestController
-@RequestMapping("/admin")
-public class AdminController
+@RequestMapping("/customer")
+public class CustomerController
 {
 
-    ArrayList<Admin> admins = new ArrayList<Admin>();
+    ArrayList<Customer> customers = new ArrayList<Customer>();
 
-    @PostMapping("/registerAdmin")
-    public Admin registerAdmin(@RequestBody Admin admin) 
+    @PostMapping("/registerCustomer")
+    public Customer registerCustomer(@RequestBody Customer customer)
     {
-        admins.add(admin);
-        return admin;
+        customers.add(customer);
+        return customer;
     }
 
-    @GetMapping("/getAllAdmins")
-    public ArrayList<Admin> getAllAdmins()
+    @GetMapping("/getAllCustomers")
+    public ArrayList<Customer> getAllCustomers()
     {
-        return admins;
+        return customers;
     }
 
-    @GetMapping("/getAdminByUserName")
-    public Admin getAdminByUserName(@RequestParam String username)
+    @GetMapping("/getCustomerByName")
+    public Customer getCustomerByName(@RequestParam String name)
     {
-        Admin adminList = null;
-        for (Admin admin : admins)
+        Customer customerList = null;
+        for (Customer customer : customers)
         {
-            if (admin.getUsername().equals(username))
+            if (customer.getName().equals(name))
             {
-                adminList = admin;
+                customerList = customer;
             }
         }
-        return adminList;
+        return customerList;
     }
 
 }

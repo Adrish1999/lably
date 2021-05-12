@@ -20,63 +20,36 @@ import antlr.collections.List;
 
 @RestController
 @RequestMapping("/lab")
-public class LabController {
+public class LabController
+{
 
     ArrayList<Lab> labs = new ArrayList<Lab>();
 
-    @GetMapping("/getLabs")
-    public ArrayList<Lab> getLabs() {
-        return labs;
-    }
-
-    @PostMapping("/addLab")
-    public Lab addLab(@RequestBody Lab lab) {
+    @PostMapping("/registerLab")
+    public Lab registerLab(@RequestBody Lab lab)
+    {
         labs.add(lab);
         return lab;
     }
 
-    @GetMapping("/searchLab")
-    public Lab searchLab(@RequestParam String name)
+    @GetMapping("/getAllLabs")
+    public ArrayList<Lab> getAllLabs()
     {
-        boolean flag = false;
-        Lab labList = null;
-
-        for(Lab l : labs)
-        {
-            if(l.getName().equals(name))
-            {
-                flag = true;
-                labList = l;
-            }
-        }
-
-        if(flag == true)
-        {
-            return labList;
-        }
-        else
-        {
-            return null;
-        }
+        return labs;
     }
 
-    // // http://localhost:8080/test/hello/xfactor
-    // @GetMapping("/hello/{name}")
-    // @ResponseBody
-    // public String index_greetings(@PathVariable String name) {
-    // return "Greetings :" + name;
-    // }
-
-    // // http://localhost:8080/test/hello2?id=16
-    // @GetMapping("/hello2")
-    // @ResponseBody
-    // public String getFoos(@RequestParam String id) {
-    // return "ID: " + id;
-    // }
-
-    // @PostMapping("/employees")
-    // Employee newEmployee(@RequestBody Employee newEmployee) {
-    // return repository.save(newEmployee);
-    // }
+    @GetMapping("/getLabByName")
+    public Lab getLabByName(@RequestParam String name)
+    {
+        Lab labList = null;
+        for (Lab lab : labs)
+        {
+            if (lab.getName().equals(name))
+            {
+                labList = lab;
+            }
+        }
+        return labList;
+    }
 
 }
