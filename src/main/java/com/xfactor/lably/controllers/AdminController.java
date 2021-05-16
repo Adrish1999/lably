@@ -1,48 +1,47 @@
 package com.xfactor.lably.controllers;
 
-import java.util.ArrayList;
-
-import javax.websocket.server.PathParam;
+import java.util.List;
 
 import com.xfactor.lably.entity.Admin;
+import com.xfactor.lably.repository.AdminRepository;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import antlr.collections.List;
 
 @RestController
 @RequestMapping("/admin")
 public class AdminController
 {
 
-    ArrayList<Admin> admins = new ArrayList<Admin>();
+    @Autowired
+    AdminRepository adminRepository;
 
     @PostMapping("/registerAdmin")
     public Admin registerAdmin(@RequestBody Admin admin) 
     {
-        admins.add(admin);
-        return admin;
+        Admin persistedAdmin = adminRepository.save(admin);
+        return persistedAdmin;
     }
 
     @GetMapping("/getAllAdmins")
-    public ArrayList<Admin> getAllAdmins()
+    public List<Admin> getAllAdmins()
     {
-        return admins;
+        List<Admin> persistedAdmins = adminRepository.findAll();
+        return persistedAdmins;
     }
 
     @GetMapping("/getAdminByUserName")
     public Admin getAdminByUserName(@RequestParam String username)
     {
+        List<Admin> persistedAdmins = adminRepository.findAll();
         Admin adminList = null;
-        for (Admin admin : admins)
+        for (Admin admin : persistedAdmins)
         {
             if (admin.getUsername().equals(username))
             {

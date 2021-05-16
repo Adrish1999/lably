@@ -1,48 +1,47 @@
 package com.xfactor.lably.controllers;
 
-import java.util.ArrayList;
-
-import javax.websocket.server.PathParam;
+import java.util.List;
 
 import com.xfactor.lably.entity.Customer;
+import com.xfactor.lably.repository.CustomerRepository;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import antlr.collections.List;
 
 @RestController
 @RequestMapping("/customer")
 public class CustomerController
 {
 
-    ArrayList<Customer> customers = new ArrayList<Customer>();
+    @Autowired
+    CustomerRepository customerRepository;
 
     @PostMapping("/registerCustomer")
     public Customer registerCustomer(@RequestBody Customer customer)
     {
-        customers.add(customer);
-        return customer;
+        Customer persistedCustomer = customerRepository.save(customer);
+        return persistedCustomer;
     }
 
     @GetMapping("/getAllCustomers")
-    public ArrayList<Customer> getAllCustomers()
+    public List<Customer> getAllCustomers()
     {
-        return customers;
+        List<Customer> persistedCustomers = customerRepository.findAll();
+        return persistedCustomers;
     }
 
     @GetMapping("/getCustomerByName")
     public Customer getCustomerByName(@RequestParam String name)
     {
+        List<Customer> persistedCustomers = customerRepository.findAll();
         Customer customerList = null;
-        for (Customer customer : customers)
+        for (Customer customer : persistedCustomers)
         {
             if (customer.getName().equals(name))
             {

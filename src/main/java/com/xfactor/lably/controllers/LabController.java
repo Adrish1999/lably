@@ -1,48 +1,46 @@
 package com.xfactor.lably.controllers;
 
-import java.util.ArrayList;
-
-import javax.websocket.server.PathParam;
+import java.util.List;
 
 import com.xfactor.lably.entity.Lab;
+import com.xfactor.lably.repository.LabRepository;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import antlr.collections.List;
 
 @RestController
 @RequestMapping("/lab")
 public class LabController
 {
-
-    ArrayList<Lab> labs = new ArrayList<Lab>();
+    @Autowired
+    LabRepository labRepository;
 
     @PostMapping("/registerLab")
     public Lab registerLab(@RequestBody Lab lab)
     {
-        labs.add(lab);
-        return lab;
+        Lab persistedLab = labRepository.save(lab);
+        return persistedLab;
     }
 
     @GetMapping("/getAllLabs")
-    public ArrayList<Lab> getAllLabs()
+    public List<Lab> getAllLabs()
     {
-        return labs;
+        List<Lab> persistedLabs = labRepository.findAll();
+        return persistedLabs;
     }
 
     @GetMapping("/getLabByName")
     public Lab getLabByName(@RequestParam String name)
     {
+        List<Lab> persistedLabs = labRepository.findAll();
         Lab labList = null;
-        for (Lab lab : labs)
+        for (Lab lab : persistedLabs)
         {
             if (lab.getName().equals(name))
             {
