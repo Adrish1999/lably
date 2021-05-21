@@ -39,16 +39,8 @@ public class CustomerController
     @GetMapping("/getCustomerByName")
     public Customer getCustomerByName(@RequestParam String name)
     {
-        List<Customer> persistedCustomers = customerRepository.findAll();
-        Customer customerList = null;
-        for (Customer customer : persistedCustomers)
-        {
-            if (customer.getName().equals(name))
-            {
-                customerList = customer;
-            }
-        }
-        return customerList;
+        Customer persistedCustomer = customerRepository.findCustomerByName(name);
+        return persistedCustomer;
     }
 
 }

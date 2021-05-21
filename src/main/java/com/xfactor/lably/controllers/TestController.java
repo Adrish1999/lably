@@ -39,16 +39,20 @@ public class TestController
     @GetMapping("/getTestByName")
     public Test getTestByName(@RequestParam String name)
     {
-        List<Test> persistedTests = testRepository.findAll();
-        Test testList = null;
-        for (Test test : persistedTests)
-        {
-            if (test.getName().equals(name))
-            {
-                testList = test;
-            }
-        }
-        return testList;
+        Test persistedTest = testRepository.findTestByName(name);
+        return persistedTest;
     }
 
+    @GetMapping("/getAveragePriceOfTests")
+    public Double getAveragePriceOfTests()
+    {
+        return testRepository.getAverageTestPrice();
+    }
+
+    @GetMapping("/getTestByBudget")
+    public List<Test> getTestByBudget(@RequestParam double budget)
+    {
+        List<Test> persistedTests = testRepository.retrieveTestByBudget(budget);
+        return persistedTests;
+    }
 }

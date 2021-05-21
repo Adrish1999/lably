@@ -24,6 +24,9 @@ public class Admin
     @Column(name = "password")
     private String password;
 
+    @Column(name = "department")
+    private String department;
+
     public String getName() {
         return name;
     }
@@ -55,4 +58,13 @@ public class Admin
     public void setId(Long id) {
         this.id = id;
     }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+
 }

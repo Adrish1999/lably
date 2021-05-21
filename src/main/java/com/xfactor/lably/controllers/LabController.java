@@ -38,16 +38,8 @@ public class LabController
     @GetMapping("/getLabByName")
     public Lab getLabByName(@RequestParam String name)
     {
-        List<Lab> persistedLabs = labRepository.findAll();
-        Lab labList = null;
-        for (Lab lab : persistedLabs)
-        {
-            if (lab.getName().equals(name))
-            {
-                labList = lab;
-            }
-        }
-        return labList;
+        Lab persistedLab = labRepository.findLabByName(name);
+        return persistedLab;
     }
 
 }

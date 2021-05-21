@@ -39,16 +39,15 @@ public class AdminController
     @GetMapping("/getAdminByUserName")
     public Admin getAdminByUserName(@RequestParam String username)
     {
-        List<Admin> persistedAdmins = adminRepository.findAll();
-        Admin adminList = null;
-        for (Admin admin : persistedAdmins)
-        {
-            if (admin.getUsername().equals(username))
-            {
-                adminList = admin;
-            }
-        }
-        return adminList;
+        Admin persistedAdmin = adminRepository.findAdminByUsername(username);
+        return persistedAdmin;
+    }
+
+    @GetMapping("/getAdminByDepartment")
+    public List<Admin> getAdminByDepartment(@RequestParam String department)
+    {
+        List<Admin> persistedAdmins = adminRepository.retrieveAdminByDepartment(department);
+        return persistedAdmins;
     }
 
 }
